@@ -1,9 +1,10 @@
+// Load environment variables (locally!)
 require('dotenv').config()
+
 // Import Modules
-const express = require("express");
-// const { body, validationResult } = require("express-validator");
-const mongoose = require("mongoose");
-const cors = require("cors");
+const express = require("express"); // server framework
+const mongoose = require("mongoose"); // database tool
+const cors = require("cors"); // Make API publicly available
 
 // Get Environment Variables
 const {
@@ -48,6 +49,7 @@ const apiRoot = "/api/";
 const version = "v1";
 const fullAPIRoot = apiRoot + version;
 
+// route is the app.get(URL,  here; controller is the function;
 app.get(`${fullAPIRoot}/todos/:id?`, async (req, res) => {
   let query = {};
   if (req.params.id) {
@@ -55,7 +57,7 @@ app.get(`${fullAPIRoot}/todos/:id?`, async (req, res) => {
   }
 
   try {
-    const todos = await Todo.find(query);
+    const todos = await Todo.find(query);  // here is the model being used
     res.status(200).json(todos);
   } catch (err) {
     res.status(500).send(err)
@@ -102,6 +104,7 @@ app.all("*", (req, res) => {
   res.sendStatus(404);
 });
 
+// Start the server
 app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);
 });
